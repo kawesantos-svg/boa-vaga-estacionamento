@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estacionamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>BoaVaga Estacionamento</h1>
+
+<div class="container">
+    <div class="form-section">
+        <h2>Registrar Entrada</h2>
+        <form id="checkin-form">
+            <input type="text" id="placa" placeholder="Placa (ex: ABC1234)" required>
+            <input type="text" id="modelo" placeholder="Modelo do Veículo" required>
+            <input type="text" id="numeroVaga" placeholder="Número da Vaga (ex: A1)" required>
+            <button type="submit">Fazer Check-in</button>
+        </form>
+        <p id="mensagem-status"></p>
+    </div>
+
+    <div class="vagas-section">
+        <h2>Status das Vagas</h2>
+        <div id="vagas-container">
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

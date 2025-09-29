@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #444;
+}
+
+.container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.form-section, .vagas-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#checkin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#checkin-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#checkin-form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#checkin-form button:hover {
+    background-color: #0056b3;
+}
+
+#vagas-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.vaga {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.vaga.DISPONIVEL {
+    background-color: #d4edda; /* Verde */
+    border-color: #c3e6cb;
+}
+
+.vaga.OCUPADA {
+    background-color: #f8d7da; /* Vermelho */
+    border-color: #f5c6cb;
+}
