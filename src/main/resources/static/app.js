@@ -1,5 +1,5 @@
 // URL base da sua API
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://sua-url-aqui.onrender.com/api';;
 
 // Função para carregar e exibir as vagas
 async function carregarVagas() {
