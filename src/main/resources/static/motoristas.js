@@ -1,5 +1,5 @@
 // src/main/resources/static/motoristas.js
-const API_URL = 'https://sua-url-aqui.onrender.com/api';;
+const API_URL = 'https://boa-vaga-estacionamento.onrender.com/api';
 
 async function carregarMotoristas() {
     try {
