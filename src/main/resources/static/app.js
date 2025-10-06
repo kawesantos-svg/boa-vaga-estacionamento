@@ -1,8 +1,14 @@
-// Substitua pela sua URL do Render
-const API_URL = 'https://sua-url-do-render.onrender.com/api';
+// src/main/resources/static/app.js
 
+// IMPORTANTE: COLOQUE A URL PÚBLICA DO SEU SERVIÇO RENDER AQUI
+const API_URL = 'https://boa-vaga-estacionamento.onrender.com/api';
+
+// --- Seletores de Elementos ---
 const modal = document.getElementById('checkout-modal');
 const closeModalButton = document.querySelector('.close-button');
+const vagasContainer = document.getElementById('vagas-container');
+const checkinForm = document.getElementById('checkin-form');
+const mensagemStatus = document.getElementById('mensagem-status');
 
 // --- Funções do Modal ---
 function showModal() {
@@ -15,65 +21,52 @@ function hideModal() {
     document.getElementById('modal-footer').innerHTML = '';
 }
 
-closeModalButton.onclick = hideModal;
-window.onclick = function(event) {
-    if (event.target == modal) {
-        hideModal();
-    }
-}
-
-// --- Lógica da Aplicação ---
-
-/**
- * Formata data para o padrão brasileiro.
- * @param {string} dateString - Data em formato ISO (ex: 2025-10-06T18:30:00)
- * @returns {string} - Data formatada (ex: 06/10/2025 18:30)
- */
+// --- Funções Auxiliares ---
 function formatarData(dateString) {
     if (!dateString) return 'N/A';
     const data = new Date(dateString);
     return data.toLocaleString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
     });
 }
 
+function exibirErro(mensagem, erro) {
+    console.error(mensagem, erro); // Loga o erro detalhado no console do navegador
+    mensagemStatus.textContent = `Erro: ${mensagem}. Verifique o console para mais detalhes.`;
+    mensagemStatus.style.color = 'var(--danger-color)';
+}
 
-/**
- * Função principal para carregar e exibir as vagas.
- */
+// --- Lógica da Aplicação (Comunicação com a API) ---
+
 async function carregarVagas() {
     try {
         const response = await fetch(`${API_URL}/vagas`);
+        if (!response.ok) {
+            throw new Error(`Falha ao carregar vagas. Status: ${response.status}`);
+        }
         const vagas = await response.json();
-        const container = document.getElementById('vagas-container');
-        container.innerHTML = ''; // Limpa o container
+        vagasContainer.innerHTML = ''; // Limpa o container
+
+        if (vagas.length === 0) {
+            vagasContainer.innerHTML = '<p>Nenhuma vaga cadastrada. Adicione vagas na página de gerenciamento.</p>';
+        }
 
         vagas.forEach(vaga => {
             const vagaDiv = document.createElement('div');
             vagaDiv.className = `vaga ${vaga.status}`;
             vagaDiv.innerHTML = `<strong>${vaga.numeroVaga}</strong><span>${vaga.status}</span>`;
-
-            // Adiciona evento de clique apenas se a vaga estiver OCUPADA
             if (vaga.status === 'OCUPADA') {
                 vagaDiv.style.cursor = 'pointer';
                 vagaDiv.onclick = () => handleVagaOcupadaClick(vaga.numeroVaga);
             }
-
-            container.appendChild(vagaDiv);
+            vagasContainer.appendChild(vagaDiv);
         });
     } catch (error) {
-        console.error('Erro ao carregar vagas:', error);
+        exibirErro('Não foi possível carregar as vagas.', error);
     }
 }
 
-/**
- * Lida com o clique em uma vaga ocupada, buscando a estadia e abrindo o modal.
- * @param {string} numeroVaga - O número da vaga clicada.
- */
 async function handleVagaOcupadaClick(numeroVaga) {
     try {
         const response = await fetch(`${API_URL}/estadias/vaga/${numeroVaga}`);
@@ -83,68 +76,49 @@ async function handleVagaOcupadaClick(numeroVaga) {
         }
         const estadia = await response.json();
 
-        const modalBody = document.getElementById('modal-body');
-        modalBody.innerHTML = `
+        document.getElementById('modal-body').innerHTML = `
             <p><strong>Placa:</strong> ${estadia.carro.placa}</p>
             <p><strong>Modelo:</strong> ${estadia.carro.modelo}</p>
             <p><strong>Entrada:</strong> ${formatarData(estadia.horarioEntrada)}</p>
         `;
-
-        const modalFooter = document.getElementById('modal-footer');
-        modalFooter.innerHTML = `<button id="pagar-btn"><i class="fas fa-dollar-sign"></i> Registrar Saída e Pagar</button>`;
+        document.getElementById('modal-footer').innerHTML = `<button id="pagar-btn"><i class="fas fa-dollar-sign"></i> Registrar Saída e Pagar</button>`;
         document.getElementById('pagar-btn').onclick = () => registrarSaida(estadia.id);
-
         showModal();
     } catch (error) {
-        console.error('Erro ao buscar estadia:', error);
-        alert(`Não foi possível carregar os dados da estadia: ${error.message}`);
+        exibirErro('Não foi possível carregar os dados da estadia.', error);
     }
 }
 
-/**
- * Envia a requisição de checkout (saída) para a API.
- * @param {string} estadiaId - O UUID da estadia a ser finalizada.
- */
 async function registrarSaida(estadiaId) {
     try {
-        const response = await fetch(`${API_URL}/estadias/${estadiaId}/checkout`, {
-            method: 'POST'
-        });
+        const response = await fetch(`${API_URL}/estadias/${estadiaId}/checkout`, { method: 'POST' });
         if (!response.ok) {
             const err = await response.json();
             throw new Error(err.message);
         }
         const pagamento = await response.json();
-
-        const modalBody = document.getElementById('modal-body');
-        const modalFooter = document.getElementById('modal-footer');
-
-        modalBody.innerHTML = `
+        document.getElementById('modal-body').innerHTML = `
             <h3>Pagamento Registrado com Sucesso!</h3>
             <p><strong>Placa:</strong> ${pagamento.placaCarro}</p>
             <p><strong>Entrada:</strong> ${formatarData(pagamento.horarioEntrada)}</p>
             <p><strong>Saída:</strong> ${formatarData(pagamento.horarioSaida)}</p>
             <h4 style="margin-top: 20px;">Valor Total: R$ ${pagamento.valor.toFixed(2)}</h4>
         `;
-        modalFooter.innerHTML = ''; // Limpa o botão de pagar
-
-        await carregarVagas(); // Atualiza o status das vagas na página principal
+        document.getElementById('modal-footer').innerHTML = '';
+        await carregarVagas();
     } catch (error) {
-        console.error('Erro ao registrar saída:', error);
-        alert(`Erro: ${error.message}`);
+        exibirErro('Não foi possível registrar a saída.', error);
     }
 }
 
-
-/**
- * Lida com o envio do formulário de check-in.
- */
 async function registrarEntrada(event) {
     event.preventDefault();
     const placa = document.getElementById('placa').value;
     const modelo = document.getElementById('modelo').value;
     const numeroVaga = document.getElementById('numeroVaga').value;
-    const mensagemStatus = document.getElementById('mensagem-status');
+
+    mensagemStatus.textContent = 'Registrando entrada...';
+    mensagemStatus.style.color = 'var(--secondary-color)';
 
     try {
         const response = await fetch(`${API_URL}/estadias/checkin`, {
@@ -156,20 +130,26 @@ async function registrarEntrada(event) {
         if (response.ok) {
             mensagemStatus.textContent = 'Veículo estacionado com sucesso!';
             mensagemStatus.style.color = 'var(--success-color)';
-            document.getElementById('checkin-form').reset();
+            checkinForm.reset();
             await carregarVagas();
         } else {
             const error = await response.json();
-            mensagemStatus.textContent = `Erro: ${error.message}`;
-            mensagemStatus.style.color = 'var(--danger-color)';
+            throw new Error(error.message || `Erro ${response.status}`);
         }
     } catch (error) {
-        console.error('Erro no check-in:', error);
-        mensagemStatus.textContent = 'Erro de conexão com o servidor.';
-        mensagemStatus.style.color = 'var(--danger-color)';
+        exibirErro(`Falha ao registrar entrada: ${error.message}`, error);
     }
 }
 
 // --- Event Listeners ---
+if (modal) {
+    closeModalButton.onclick = hideModal;
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            hideModal();
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', carregarVagas);
-document.getElementById('checkin-form').addEventListener('submit', registrarEntrada);
+checkinForm.addEventListener('submit', registrarEntrada);
