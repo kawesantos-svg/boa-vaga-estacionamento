@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class CarroDTO {
     @NotBlank(message = "A placa é obrigatória")
-    @Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9][0-9]{2}", message = "Formato de placa inválido.")
+    //@Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9][0-9]{2}", message = "Formato de placa inválido.")
     private String placa;
 
     @NotBlank(message = "O modelo é obrigatório")

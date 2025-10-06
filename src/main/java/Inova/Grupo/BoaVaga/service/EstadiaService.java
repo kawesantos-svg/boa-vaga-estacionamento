@@ -122,4 +122,9 @@ public class EstadiaService {
         BigDecimal taxaPorHora = new BigDecimal("2.00");
         return taxaFixa.add(taxaPorHora.multiply(new BigDecimal(hours)));
     }
+    public Estadia buscarAtivaPorNumeroVaga(String numeroVaga) {
+        return estadiaRepository.findByVagaNumeroVagaAndAtivaTrue(numeroVaga)
+                .orElseThrow(() -> new RuntimeException("Não há estadia ativa para esta vaga."));
+    }
+
 }

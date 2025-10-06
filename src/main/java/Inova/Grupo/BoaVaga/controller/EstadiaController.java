@@ -37,6 +37,12 @@ public class EstadiaController {
         return ResponseEntity.created(location).body(novaEstadia);
     }
 
+    @GetMapping("/vaga/{numeroVaga}")
+    public ResponseEntity<Estadia> buscarPorNumeroVaga(@PathVariable String numeroVaga) {
+        Estadia estadia = estadiaService.buscarAtivaPorNumeroVaga(numeroVaga);
+        return ResponseEntity.ok(estadia);
+    }
+
     @PostMapping("/{id}/checkout")
     public ResponseEntity<PagamentoDTO> registrarSaida(@PathVariable UUID id) {
         Pagamento pagamento = estadiaService.registrarSaida(id);

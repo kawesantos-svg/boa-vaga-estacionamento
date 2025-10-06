@@ -2,14 +2,14 @@
 package Inova.Grupo.BoaVaga.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.br.CPF;
+//import org.hibernate.validator.constraints.br.CPF;
 
 public class MotoristaDTO {
     @NotBlank(message = "O nome é obrigatório")
     private String nome;
 
     @NotBlank(message = "O CPF é obrigatório")
-    @CPF(message = "CPF inválido")
+    //@CPF(message = "CPF inválido")
     private String cpf;
 
     // Getters e Setters

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 public class EstadiaCheckinDTO {
 
     @NotBlank(message = "A placa não pode estar em branco.")
-    @Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9][0-9]{2}", message = "Formato de placa inválido.")
+    //@Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9][0-9]{2}", message = "Formato de placa inválido.")
     private String placa;
 
     @NotBlank(message = "O modelo não pode estar em branco.")

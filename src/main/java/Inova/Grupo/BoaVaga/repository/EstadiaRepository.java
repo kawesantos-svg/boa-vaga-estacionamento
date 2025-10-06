@@ -17,6 +17,8 @@ public interface EstadiaRepository extends JpaRepository<Estadia, UUID> {
      */
     Optional<Estadia> findByVagaAndAtivaTrue(Vaga vaga);
 
+    Optional<Estadia> findByVagaNumeroVagaAndAtivaTrue(String numeroVaga);
+
     /**
      * Encontra a estadia ativa para um carro específico.
      * Útil para verificar se um carro já está estacionado.
