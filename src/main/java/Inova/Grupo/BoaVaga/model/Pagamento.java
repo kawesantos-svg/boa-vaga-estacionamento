@@ -1,4 +1,5 @@
 package Inova.Grupo.BoaVaga.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ public class Pagamento {
     //Relacionamento com Estadia
     @OneToOne
     @JoinColumn(name = "estadia_id", nullable = false)
+    @JsonIgnore
     private Estadia estadia;
 
     public void setEstadia(Estadia estadia) {
