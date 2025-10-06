@@ -2,10 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>...</title>
+    <title>Gerenciar Vagas</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,30 +14,30 @@
     <a href="carros.html">Carros</a>
     <a href="vagas.html" class="active">Vagas</a>
 </nav>
-<h1>Gerenciar Motoristas</h1>
+<h1>Gerenciar Vagas</h1>
 <div class="container">
     <div class="form-section">
-        <h2>Cadastrar Novo Motorista</h2>
-        <form id="motorista-form">
-            <input type="text" id="nome" placeholder="Nome completo" required>
-            <input type="text" id="cpf" placeholder="CPF" required>
-            <button type="submit">Cadastrar Motorista</button>
+        <h2>Criar Nova Vaga</h2>
+        <form id="vaga-form">
+            <input type="text" id="numeroVaga" placeholder="Número da Vaga (ex: C1, D2)" required>
+            <button type="submit"><i class="fas fa-plus"></i> Criar Vaga</button>
         </form>
     </div>
-    <div class="vagas-section">
-        <h2>Motoristas Cadastrados</h2>
-        <table id="motoristas-table">
+    <div class="list-section">
+        <h2>Vagas Existentes</h2>
+        <table id="vagas-table">
             <thead>
             <tr>
-                <th>Nome</th>
-                <th>CPF</th>
+                <th>Número</th>
+                <th>Status</th>
                 <th>Ação</th>
             </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+            </tbody>
         </table>
     </div>
 </div>
-<script src="motoristas.js"></script>
+<script src="vagas.js"></script>
 </body>
 </html>

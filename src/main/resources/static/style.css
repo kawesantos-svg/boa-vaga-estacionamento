@@ -254,3 +254,28 @@ td button {
 #modal-body strong {
     color: var(--primary-color);
 }
+
+/* src/main/resources/static/style.css - Adicionar ao final */
+
+/* --- Estilos para Tabela de Vagas --- */
+.status-tag {
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-disponivel {
+    background-color: var(--success-color);
+}
+
+.status-ocupada {
+    background-color: var(--danger-color);
+}
+
+table button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
