@@ -107,17 +107,15 @@ public class EstadiaService {
 
     private BigDecimal calcularValor(LocalDateTime entrada, LocalDateTime saida) {
         Duration duration = Duration.between(entrada, saida);
-        long hours = duration.toHours();
+        long minutes = duration.toMinutes();
 
-        // Se houver minutos restantes, cobra a hora cheia
-        if (duration.toMinutes() % 60 != 0) {
-            hours++;
+        // Se o tempo for menor que uma hora (ou igual a 0), cobra uma hora
+        if (minutes <= 60) {
+            minutes = 60;
         }
 
-        // Se o tempo for menor que uma hora, cobra uma hora
-        if (hours == 0) {
-            hours = 1;
-        }
+        // Calcula o número de horas, arredondando para cima
+        long hours = (minutes + 59) / 60;
 
         // Lógica de preço: R$5 fixo + R$2 por hora
         BigDecimal taxaFixa = new BigDecimal("5.00");

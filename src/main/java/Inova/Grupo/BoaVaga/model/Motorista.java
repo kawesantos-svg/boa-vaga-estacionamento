@@ -1,4 +1,5 @@
 package Inova.Grupo.BoaVaga.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class Motorista {
         private String cpf; // Um bom identificador único para o motorista
 
         // Pode ter uma lista de carros
+        @JsonIgnore
         @OneToMany(mappedBy = "proprietario")
         private List<Carro> carros;
 }

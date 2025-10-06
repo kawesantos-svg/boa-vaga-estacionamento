@@ -25,6 +25,14 @@ public class Pagamento {
     @OneToOne
     @JoinColumn(name = "estadia_id", nullable = false)
     private Estadia estadia;
+
+    public void setEstadia(Estadia estadia) {
+        this.estadia = estadia;
+        if (estadia != null && estadia.getPagamento() != this) {
+            estadia.setPagamento(this);
+        }
+    }
+
 }
 
 

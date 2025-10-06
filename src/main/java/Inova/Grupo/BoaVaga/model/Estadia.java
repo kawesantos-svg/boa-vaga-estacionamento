@@ -30,4 +30,11 @@ public class Estadia {
     // Relacionamento com o pagamento
     @OneToOne(mappedBy = "estadia", cascade = CascadeType.ALL)
     private Pagamento pagamento;
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
+        if (pagamento != null && pagamento.getEstadia() != this) {
+            pagamento.setEstadia(this);
+        }
+    }
 }

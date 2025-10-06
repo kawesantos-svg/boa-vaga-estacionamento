@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+    <a href="index.html">Estacionamento</a>
+    <a href="motoristas.html">Motoristas</a>
+    <a href="carros.html">Carros</a>
+</nav>
+<h1>Gerenciar Carros</h1>
+<div class="container">
+    <div class="form-section">
+        <h2>Cadastrar Novo Carro</h2>
+        <form id="carro-form">
+            <input type="text" id="placa" placeholder="Placa (ABC1D23)" required>
+            <input type="text" id="modelo" placeholder="Modelo" required>
+            <input type="text" id="cor" placeholder="Cor">
+            <select id="proprietario" required>
+                <option value="">Selecione um Proprietário</option>
+            </select>
+            <button type="submit">Cadastrar Carro</button>
+        </form>
+    </div>
+    <div class="vagas-section">
+        <h2>Carros Cadastrados</h2>
+        <table id="carros-table">
+            <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Modelo</th>
+                <th>Cor</th>
+                <th>Proprietário</th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<script src="carros.js"></script>
+</body>
+</html>
