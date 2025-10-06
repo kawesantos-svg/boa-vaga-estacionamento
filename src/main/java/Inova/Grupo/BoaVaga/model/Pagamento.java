@@ -21,6 +21,7 @@ public class Pagamento {
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento; // Enum: CARTAO, DINHEIRO, PIX
 
+    //Relacionamento com Estadia
     @OneToOne
     @JoinColumn(name = "estadia_id", nullable = false)
     private Estadia estadia;

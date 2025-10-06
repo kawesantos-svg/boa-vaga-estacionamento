@@ -12,19 +12,19 @@ public class Estadia {
     @GeneratedValue
     private UUID id;
 
+    // Relacionamento com Vaga
     @ManyToOne
     @JoinColumn(name = "vaga_id", nullable = false)
     private Vaga vaga;
 
+    // Relacionamento com Carro
     @ManyToOne
     @JoinColumn(name = "carro_placa", nullable = false)
     private Carro carro;
 
     @Column(nullable = false)
     private LocalDateTime horarioEntrada;
-
     private LocalDateTime horarioSaida;
-
     private boolean ativa = true;
 
     // Relacionamento com o pagamento
